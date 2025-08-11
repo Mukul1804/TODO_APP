@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS (you use .btn, .form-control etc.) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Minimal reset -->
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+    </style>
+
+    <!-- Custom styling -->
+    <style>
+        :root {
+            --bg1: #0f172a;
+            /* slate-900 */
+            --bg2: #111827;
+            /* gray-900 */
+            --acc1: #a78bfa;
+            /* violet-400 */
+            --acc2: #60a5fa;
+            /* blue-400 */
+            --glass: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+        }
+
+        /* Fullscreen animated backdrop */
+        .auth-wrapper {
+            min-height: 100vh;
+            /* fallback */
+            min-height: 100dvh;
+            /* modern */
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            background: radial-gradient(1200px 600px at 10% 10%, #1f2937 0%, transparent 60%),
+                radial-gradient(900px 500px at 90% 20%, #0b132b 0%, transparent 60%),
+                linear-gradient(135deg, var(--bg1), var(--bg2));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, var(--acc1), var(--acc2), var(--acc1));
+            filter: blur(120px) opacity(0.15);
+            animation: spin 18s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(1turn);
+            }
+        }
+
+        /* Glass card */
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            color: var(--text);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+            transform: translateY(10px) scale(0.98);
+            opacity: 0;
+            animation: cardIn 600ms cubic-bezier(.2, .8, .2, 1) 100ms forwards;
+        }
+
+        @keyframes cardIn {
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        .auth-header {
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .auth-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto .75rem;
+            background: linear-gradient(135deg, var(--acc1), var(--acc2));
+            color: #0b1020;
+            font-size: 1.25rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(96, 165, 250, .35);
+        }
+
+        .auth-title {
+            font-size: 1.35rem;
+            margin: 0;
+        }
+
+        .auth-sub {
+            color: var(--muted);
+            margin: .25rem 0 0 0;
+            font-size: .95rem;
+        }
+
+        /* Form + inputs (works with Bootstrap) */
+        .auth-card .form-label {
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: .2px;
+        }
+
+        .auth-card .form-control {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: .9rem;
+            padding: .75rem .9rem;
+            transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+        }
+
+        .auth-card .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        .auth-card .form-control:focus {
+            outline: none;
+            border-color: rgba(96, 165, 250, .75);
+            box-shadow: 0 0 0 6px rgba(96, 165, 250, .12), 0 12px 30px rgba(0, 0, 0, .25);
+            transform: translateY(-1px);
+        }
+
+        /* Button with glow/lift */
+        .auth-card .btn {
+            border-radius: .9rem;
+            padding: .7rem 1rem;
+            font-weight: 600;
+            letter-spacing: .2px;
+            transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
+        }
+
+        .auth-card .btn.btn-dark {
+            background: linear-gradient(135deg, #0b1220, #0f172a);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .45);
+        }
+
+        .auth-card .btn.btn-dark:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(96, 165, 250, .28);
+        }
+
+        .auth-card .btn.btn-dark:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .35);
+        }
+
+        /* Reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            .auth-wrapper::before {
+                animation: none;
+            }
+
+            .auth-card {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span style="font-size: 1.2rem;">⚙️</span> Settings
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/">Dark mode</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{url_for ('logout')}}">Log out</a></li>
+                            <li><a class="dropdown-item" href="{{url_for ('signup')}}">Signup</a></li>
+
+
+                        </ul>
+                    </li>
+                </ul>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">✅</div>
+                <h1 class="auth-title">My Todo</h1>
+                <p class="auth-sub">Signup.</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('signup') }}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input id="username" name="username" class="form-control" required autocomplete="username"
+                        maxlength="64">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" name="password" class="form-control" required
+                        autocomplete="current-password" maxlength="128">
+                </div>
+
+                <button class="btn btn-dark w-100" type="submit">Signup</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (needed only if you add dropdowns/modals) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+```

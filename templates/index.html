@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}
+Home
+{% endblock title %}
+{% block body %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Todo</title>
+
+</head>
+
+
+<body>
+
+  <!-- Form Section -->
+  <div class="container my-3">
+    <h2> Add Todos here! </h2>
+    <form action="{{ url_for('home') }}" method="POST">
+
+      <div class="container my-3">
+        <label for="title" class="form-label">Todo</label>
+        <input type="text" class="form-control" name="title" id="title" placeholder="What's your goal">
+      </div>
+      <div class="container my-3">
+        <label for="desc" class="form-label">Description</label>
+        <input type="text" class="form-control" name="desc" id="desc" placeholder="Description">
+      </div>
+      <button class="btn btn-dark" type="submit">Submit</button>
+      <!--  <button class="btn btn-dark" type="submit">Login</button>-->
+
+    </form>
+  </div>
+
+  <div class="container my-3">
+    {% if allTodo|length ==0 %}
+    No record!
+
+
+    {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Sno</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Time</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for todo in allTodo %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{todo.title}}</td>
+          <td>{{todo.desc}}</td>
+          <td>{{todo.date_created}}</td>
+          <td>
+            <a href="/delete/{{todo.sno}}" type="button" class="btn btn-dark">Delete</a>
+            <a href="/update/{{todo.sno}}" type="button" class="btn btn-dark">Update</a>
+        </tr>
+        {% endfor %}
+
+        {% endif %}
+
+
+      </tbody>
+    </table>
+  </div>
+
+
+</body>
+
+</html>
+{% endblock body %}
